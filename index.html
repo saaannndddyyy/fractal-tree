@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fractal Tree</title>
+    <style>
+        .container {
+            text-align: center;
+        }
+    </style>
+ </head>
+ <body>
+     <div class="container">
+         <canvas id="board" width="350" height="240"></canvas>
+     </div>
+ 
+     <script>
+         const canvas = document.getElementById("board")
+         const board = canvas.getContext("2d")
+         let theta = Math.PI/6
+ 
+         // recursion function
+         function drawBranch(x, y, length, angle) {
+             var x1 = x + length * Math.cos(angle)
+             var y1 = y - length * Math.sin(angle)
+             board.beginPath()
+             board.moveTo(x, y)
+             board.lineTo(x1, y1)
+             board.lineWidth = length/4
+             board.stroke()
+             board.closePath()
+ 
+             if(length > 4) {
+                 drawBranch(x1, y1, length-4, angle-theta)
+                 drawBranch(x1, y1, length-4, angle+theta)
+             }
+         }
+ 
+         var div = 15
+         setInterval( function() {
+             if( div > 1 ) {
+                 // set background color for the canvas
+                 board.fillStyle = "#e0e0e0"
+                 board.strokeStyle = "black"
+                 board.fillRect(0,0,canvas.width, canvas.height)
+                 board.strokeRect(0,0,canvas.width, canvas.height)
+                 div -= 0.1
+                 theta = Math.PI / div
+                 drawBranch(175, 240, 40, Math.PI/2)
+             }
+         }, 100)
+     </script>
+ </body>
+ </html>
